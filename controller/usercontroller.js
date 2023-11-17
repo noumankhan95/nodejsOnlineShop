@@ -16,6 +16,11 @@ exports.createOrder = async (req, res) => {
 
 exports.userLogin = async (req, res) => {
     try {
+        const validationerrors = validationResult(req)
+        if (!validationerrors.isEmpty()) {
+            console.log(validationerrors.array())
+            throw "Enter Correct Information"
+        }
         const { email, password: pw } = req.body
         let user = await User.findOne({ email })
         if (!user) throw "No User Exists"

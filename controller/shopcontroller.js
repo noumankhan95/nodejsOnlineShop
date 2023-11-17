@@ -11,7 +11,7 @@ exports.getProducts = async (req, res, next) => {
 
 exports.createProduct = async (req, res, next) => {
     try {
-        console.log("Here")
+        if (!req.user.admin) throw "Authorization Error"
         const { name, price, colors } = req.body
         console.log(req.body)
         let result = await Product.create({ name, price, colors })
@@ -26,6 +26,8 @@ exports.createProduct = async (req, res, next) => {
 
 exports.deleteProduct = async (req, res, next) => {
     try {
+        if (!req.user.admin) throw "Authorization Error"
+
         const { id } = req.body
         let result = await Product.findByIdAndRemove(id)
         console.log(result)
