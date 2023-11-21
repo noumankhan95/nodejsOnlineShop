@@ -8,9 +8,10 @@ exports.verifyToken = async (req, res, next) => {
             throw "UnAuthorized"
         }
         const decoded = jwt.verify(req.headers.authorization.split(" ")[1], "ThismyKey")
-        req.user = { ...decoded }
+        let user = await User.findOne({ email: decoded.user.email })
+        let { _id: id, name, email, admin, orders } = user
+        req.user = { id, name, email, admin, orders }
         if (decoded.admin) {
-            let user = await User.findOne({ email: decoded.email })
             if (user && user.admin) { req.user.admin = true } else {
                 req.user.admin = false
             }
@@ -18,6 +19,6 @@ exports.verifyToken = async (req, res, next) => {
         next()
     } catch (e) {
         console.log(e)
-        return res.status(404).json({ status: 0, data: { message: "Authentication Error" + e } })
+        return res.status(403).json({ status: 0, data: { message: "Authentication Error Forbidden" + e } })
     }
 }

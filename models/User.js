@@ -17,7 +17,8 @@ const UserSchema = mongoose.Schema({
         required: true,
         type: Boolean,
         default: false
-    }
+    },
+    orders: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Order' }],
 }, { timestamps: true });
 
 const UserModel = mongoose.model("User", UserSchema);

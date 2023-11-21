@@ -7,9 +7,10 @@ const ProductSchema = mongoose.Schema({
     price: {
         type: Number,
         required: true
-
     },
-    colors: [{ type: String }]
+    category: { type: String },
+    colors: [{ type: String }],
+    imgurl: [{ type: String, required: true }]
 }, { timestamps: true })
 
 module.exports = mongoose.model("Product", ProductSchema)
